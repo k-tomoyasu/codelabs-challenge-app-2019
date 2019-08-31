@@ -20,6 +20,7 @@ import droidkaigi.github.io.challenge2019.data.api.HackerNewsApi
 import droidkaigi.github.io.challenge2019.data.api.response.Item
 import droidkaigi.github.io.challenge2019.data.db.ArticlePreferences
 import droidkaigi.github.io.challenge2019.data.db.ArticlePreferences.Companion.saveArticleIds
+import droidkaigi.github.io.challenge2019.ingest.IngestManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +39,8 @@ class MainActivity : BaseActivity() {
 
     private lateinit var storyAdapter: StoryAdapter
     private lateinit var hackerNewsApi: HackerNewsApi
+
+    private val ingestManager = IngestManager()
 
     private var getStoriesTask: AsyncTask<Long, Unit, List<Item?>>? = null
     private val itemJsonAdapter = moshi.adapter(Item::class.java)
@@ -75,6 +78,7 @@ class MainActivity : BaseActivity() {
                     R.id.copy_url -> {
                         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         clipboard.primaryClip = ClipData.newPlainText("url", item.url)
+                        track()
                     }
                     R.id.refresh -> {
                         hackerNewsApi.getItem(item.id).enqueue(object : Callback<Item> {
@@ -165,6 +169,7 @@ class MainActivity : BaseActivity() {
                             storyAdapter.stories = items.toMutableList()
                             storyAdapter.alreadyReadStories = ArticlePreferences.getArticleIds(this@MainActivity)
                             storyAdapter.notifyDataSetChanged()
+                            track()
                         }
                     }
 
@@ -217,5 +222,11 @@ class MainActivity : BaseActivity() {
         getStoriesTask?.run {
             if (!isCancelled) cancel(true)
         }
+    }
+
+    private fun track() {
+        Thread {
+            ingestManager.track()
+        }.start()
     }
 }
