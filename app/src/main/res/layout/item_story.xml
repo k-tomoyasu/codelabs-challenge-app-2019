@@ -63,30 +63,30 @@
             />
 
         <TextView
-                android:id="@+id/url"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:text="@{item.url}"
-                app:layout_constraintTop_toBottomOf="@id/time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="url"
-        />
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.url}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@{alreadyRead ? @color/disabledText : @android:color/holo_blue_dark}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time"
+            tools:text="url" />
 
 
         <TextView
             android:id="@+id/points_and_author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:text="@{item.score + ` points by ` + item.author}"
-                app:layout_constraintTop_toBottomOf="@id/url"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="100 points by author"
-        />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.score + ` points by ` + item.author}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/url"
+            tools:text="100 points by author" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
