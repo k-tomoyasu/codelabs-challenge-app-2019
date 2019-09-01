@@ -28,7 +28,7 @@ class CommentAdapter(
                 AdViewHolder(binding)
             }
             else -> {
-                throw IllegalArgumentException("undeifiend view type $viewType")
+                throw IllegalArgumentException("undefined view type $viewType")
             }
         }
     }
