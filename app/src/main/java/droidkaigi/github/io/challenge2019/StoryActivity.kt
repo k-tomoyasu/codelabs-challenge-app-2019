@@ -59,6 +59,7 @@ class StoryActivity : BaseActivity() {
         item = intent.getStringExtra(EXTRA_ITEM_JSON)?.let {
             itemJsonAdapter.fromJson(it)
         }
+        this.title = item?.title
 
         val retrofit = createRetrofit("https://hacker-news.firebaseio.com/v0/")
 
