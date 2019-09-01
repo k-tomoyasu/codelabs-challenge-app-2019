@@ -14,6 +14,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import android.widget.TextView
 import com.squareup.moshi.Types
 import droidkaigi.github.io.challenge2019.data.api.HackerNewsApi
 import droidkaigi.github.io.challenge2019.data.api.response.Item
@@ -34,6 +35,7 @@ class StoryActivity : BaseActivity() {
     private lateinit var webView: WebView
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressView: ProgressBar
+    private lateinit var commentLabelView: TextView
 
     private lateinit var commentAdapter: CommentAdapter
     private lateinit var hackerNewsApi: HackerNewsApi
@@ -52,9 +54,19 @@ class StoryActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        webView = findViewById(R.id.web_view)
         recyclerView = findViewById(R.id.comment_recycler)
+        recyclerView.visibility = View.INVISIBLE
+        commentLabelView = findViewById(R.id.comment_label)
+        commentLabelView.visibility = View.INVISIBLE
         progressView = findViewById(R.id.progress)
+        webView = findViewById(R.id.web_view)
+        webView.webViewClient = object: WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                recyclerView.visibility = View.VISIBLE
+                commentLabelView.visibility = View.VISIBLE
+            }
+        }
 
         item = intent.getStringExtra(EXTRA_ITEM_JSON)?.let {
             itemJsonAdapter.fromJson(it)
